@@ -1,0 +1,84 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model employer {
+    employer_id    String      @id @default(uuid())
+    employer_email String      @unique
+    employer_pwd   String
+    refreshToken   String?
+    candidate      candidate[]
+    createdAt      DateTime    @default(now())
+    updatedAt      DateTime    @updatedAt
+}
+
+model candidate {
+    candidate_id          String               @id @default(uuid())
+    candidate_name        String?
+    candidate_email       String?
+    candidate_phone       String?
+    candidate_nationality String?
+    candidate_designation String?
+    candidate_edu         String?
+    candidate_gpa         String?
+    langs                 candidate_language[]
+    skills                candidate_skills[]
+    xp                    candidate_xp[]
+
+    empId    String
+    employer employer @relation(fields: [empId], references: [employer_id])
+    file     File?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model candidate_language {
+    cl_id   String @id @default(uuid())
+    cl_name String
+
+    candidate_id String
+    candidate    candidate @relation(fields: [candidate_id], references: [candidate_id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model candidate_skills {
+    ck_id   String @id @default(uuid())
+    ck_name String
+
+    candidate_id String
+    candidate    candidate @relation(fields: [candidate_id], references: [candidate_id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model candidate_xp {
+    cxp_id       String  @id @default(uuid())
+    cxp_position String?
+    cxp_duration String?
+
+    candidate_id String
+    candidate    candidate @relation(fields: [candidate_id], references: [candidate_id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model File {
+    file_id   String @id @default(uuid())
+    file_name String
+
+    candidate_id String    @unique
+    candidate    candidate @relation(fields: [candidate_id], references: [candidate_id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
