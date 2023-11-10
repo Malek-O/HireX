@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false, limit: '5mb', parameterLimit: 5000
 
 app.use('/register', require('./routes/register'))
 app.use('/login', require('./routes/auth'))
+app.use('/logout', require('./routes/logout'))
 
 
 app.get('/', (req, res) => {
