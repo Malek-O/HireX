@@ -1,5 +1,5 @@
 const express = require('express');
-const { handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates, handleCandidateFile } = require('../controllers/candidateController');
+const { handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates, handleCandidateFile, handleStatusChange } = require('../controllers/candidateController');
 const multer = require('multer');
 const storage = require('../middlewares/multerStorage');
 const pdfToText = require('../middlewares/pdfToText');
@@ -13,6 +13,7 @@ router.route('/')
 router.route('/:id')
     .delete(handleDeletingCandidate)
     .get(handleGetSingleCandidates)
+    .patch(handleStatusChange)
 router.route('/file/:fileId')
     .get(handleCandidateFile)
 

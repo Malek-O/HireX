@@ -164,5 +164,25 @@ const handleCandidateFile = async (req, res) => {
     }
 }
 
-module.exports = { handleCandidateFile, handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates }
+/** @type {import("express").RequestHandler} */
+const handleStatusChange = async (req, res) => {
+
+    if (!req.params.id || !req.body.status) return res.sendStatus(400)
+    const { id } = req.params
+    const { status } = req.body
+    try {
+        const updateStatus = await prisma.candidate.update({
+            where: { candidate_id: id },
+            data: { status }
+        })
+        console.log(updateStatus);
+        return res.sendStatus(200)
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500)
+    }
+
+}
+
+module.exports = { handleStatusChange, handleCandidateFile, handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates }
 

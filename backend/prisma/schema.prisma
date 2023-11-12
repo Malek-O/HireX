@@ -7,6 +7,11 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum Status {
+    PENDING
+    APPROVED
+}
+
 model employer {
     employer_id    String      @id @default(uuid())
     employer_email String      @unique
@@ -26,6 +31,7 @@ model candidate {
     candidate_designation String?
     candidate_edu         String?
     candidate_gpa         String?
+    status                Status               @default(PENDING)
     langs                 candidate_language[]
     skills                candidate_skills[]
     xp                    candidate_xp[]
