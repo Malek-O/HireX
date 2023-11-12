@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
+const fs = require('fs').promises;
 
 
 
@@ -57,6 +58,18 @@ const handleDeletingCandidate = async (req, res) => {
     if (!req.params.id) return res.sendStatus(400)
 
     const id = req.params.id
+
+    const file = await prisma.file.findUnique({ where: { candidate_id: id } })
+    const filePath = `./uploads/${file.file_name}`;
+
+    try {
+        await fs.unlink(filePath);
+        console.log('File deleted successfully');
+    } catch (err) {
+        console.error(`Error deleting file: ${err}`);
+        return res.status(400).json({ error: "Error deleting file" })
+    }
+
     try {
         const deleteSkills = prisma.candidate_skills.deleteMany({ where: { candidate_id: id } })
         const deleteXp = prisma.candidate_xp.deleteMany({ where: { candidate_id: id } })
@@ -86,7 +99,7 @@ const handleGetAllCandidates = async (req, res) => {
                 xp: { select: { cxp_id: true, cxp_duration: true, cxp_position: true } }
             }
         })
-        return res.status(200).json({ message: candidates })
+        return res.status(200).json(candidates)
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: error?.meta.cause })
@@ -102,7 +115,7 @@ const handleGetSingleCandidates = async (req, res) => {
     const id = req.params.id
 
     try {
-        const candidates = await prisma.candidate.findUnique({
+        const candidate = await prisma.candidate.findUnique({
             where: { candidate_id: id },
             include: {
                 file: { select: { file_name: true } },
@@ -111,7 +124,7 @@ const handleGetSingleCandidates = async (req, res) => {
                 xp: { select: { cxp_id: true, cxp_duration: true, cxp_position: true } }
             }
         })
-        return res.status(200).json({ message: candidates })
+        return res.status(200).json(candidate)
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: error?.meta.cause })
