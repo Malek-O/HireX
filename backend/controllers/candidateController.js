@@ -67,5 +67,26 @@ const handleAddingCandidate = async (req, res) => {
     }
 }
 
-module.exports = { handleAddingCandidate }
+/** @type {import("express").RequestHandler} */
+const handleDeletingCandidate = async (req, res) => {
+
+    if (!req.params.id) return res.sendStatus(400)
+
+    const id = req.params.id
+    try {
+        const deleteSkills = prisma.candidate_skills.deleteMany({ where: { candidate_id: id } })
+        const deleteXp = prisma.candidate_xp.deleteMany({ where: { candidate_id: id } })
+        const deleteLangs = prisma.candidate_language.deleteMany({ where: { candidate_id: id } })
+        const deleteFile = prisma.file.delete({ where: { candidate_id: id } })
+        const deleteCandidate = prisma.candidate.delete({ where: { candidate_id: id } })
+        const transaction = await prisma.$transaction([deleteSkills, deleteXp, deleteLangs, deleteFile, deleteCandidate])
+        console.log(transaction);
+        return res.status(200).json({ message: "Candidate deleted" })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error?.meta.cause })
+    }
+}
+
+module.exports = { handleAddingCandidate, handleDeletingCandidate }
 
