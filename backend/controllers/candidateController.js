@@ -37,26 +37,10 @@ const handleAddingCandidate = async (req, res) => {
                 candidate_edu: Education,
                 candidate_gpa: GPA,
                 empId: "2238bf49-f2b5-4ff1-be33-e618353a7810",
-                file: {
-                    create: {
-                        file_name: `${req.file.filename}`
-                    }
-                },
-                langs: {
-                    createMany: {
-                        data: langs
-                    }
-                },
-                skills: {
-                    createMany: {
-                        data: skill
-                    }
-                },
-                xp: {
-                    createMany: {
-                        data: xp[0] ? xp : []
-                    }
-                }
+                file: { create: { file_name: `${req.file.filename}` } },
+                langs: { createMany: { data: langs } },
+                skills: { createMany: { data: skill } },
+                xp: { createMany: { data: xp[0] ? xp : [] } }
             },
         })
         console.log(row);
@@ -88,5 +72,51 @@ const handleDeletingCandidate = async (req, res) => {
     }
 }
 
-module.exports = { handleAddingCandidate, handleDeletingCandidate }
+
+/** @type {import("express").RequestHandler} */
+
+const handleGetAllCandidates = async (req, res) => {
+
+    try {
+        const candidates = await prisma.candidate.findMany({
+            include: {
+                file: { select: { file_name: true } },
+                langs: { select: { cl_id: true, cl_name: true } },
+                skills: { select: { ck_id: true, ck_name: true } },
+                xp: { select: { cxp_id: true, cxp_duration: true, cxp_position: true } }
+            }
+        })
+        return res.status(200).json({ message: candidates })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error?.meta.cause })
+    }
+}
+
+/** @type {import("express").RequestHandler} */
+
+const handleGetSingleCandidates = async (req, res) => {
+
+    if (!req.params.id) return res.sendStatus(400)
+
+    const id = req.params.id
+
+    try {
+        const candidates = await prisma.candidate.findUnique({
+            where: { candidate_id: id },
+            include: {
+                file: { select: { file_name: true } },
+                langs: { select: { cl_id: true, cl_name: true } },
+                skills: { select: { ck_id: true, ck_name: true } },
+                xp: { select: { cxp_id: true, cxp_duration: true, cxp_position: true } }
+            }
+        })
+        return res.status(200).json({ message: candidates })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error?.meta.cause })
+    }
+}
+
+module.exports = { handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates }
 
