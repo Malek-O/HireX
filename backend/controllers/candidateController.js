@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
 const fs = require('fs').promises;
+const path = require('path');
 
 
 
@@ -131,5 +132,37 @@ const handleGetSingleCandidates = async (req, res) => {
     }
 }
 
-module.exports = { handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates }
+
+/** @type {import("express").RequestHandler} */
+
+const handleCandidateFile = async (req, res) => {
+
+    // future: u should add check up for username here
+
+    if (!req.params.fileId) return res.status(400).json({ "message": "File ID not found" })
+
+    try {
+
+        // future: u should query the file associated with user id here the logged in 
+        const file = await prisma.file.findUnique({
+            where: { file_id: req.params.fileId }, select: { file_name: true }
+        })
+
+        if (!file) return res.status(404).json({ message: "File not found" })
+
+        const pdfPath = path.join(__dirname, '../uploads', file.file_name);
+
+        return res.sendFile(pdfPath, err => {
+            if (err) {
+                res.status(404).send('Pdf not found');
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error?.meta?.cause })
+    }
+}
+
+module.exports = { handleCandidateFile, handleAddingCandidate, handleDeletingCandidate, handleGetAllCandidates, handleGetSingleCandidates }
 
