@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 3550
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
 const credentials = require('./middlewares/credentials');
+const verifyJWT = require('./middlewares/verifyJWT');
 
 app.use(credentials)
 app.use(cors(require('./config/corsOptions')));
@@ -15,13 +16,13 @@ app.use(express.urlencoded({ extended: false, limit: '5mb', parameterLimit: 5000
 app.use('/register', require('./routes/register'))
 app.use('/login', require('./routes/auth'))
 app.use('/logout', require('./routes/logout'))
+
+app.use(verifyJWT)
 app.use('/candidate', require('./routes/candidate'))
 
 
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: "Welcome to HireX API" })
-})
+
 
 
 
