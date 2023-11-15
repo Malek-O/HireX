@@ -8,7 +8,7 @@ const path = require('path');
 /** @type {import("express").RequestHandler} */
 const handleAddingCandidate = async (req, res) => {
 
-    if (!req?.candidateJSON || !req.file) return res.sendStatus(400)
+    if (!req?.candidateJSON || !req.file || !req.user) return res.sendStatus(400)
 
     const data = JSON.parse(req.candidateJSON)
 
@@ -29,6 +29,9 @@ const handleAddingCandidate = async (req, res) => {
 
 
     try {
+
+        const employer = await prisma.employer.findUnique({ where: { employer_email: req.user } })
+
         const row = await prisma.candidate.create({
             data: {
                 candidate_name: name,
@@ -38,7 +41,7 @@ const handleAddingCandidate = async (req, res) => {
                 candidate_designation: Designation,
                 candidate_edu: Education,
                 candidate_gpa: GPA,
-                empId: "2238bf49-f2b5-4ff1-be33-e618353a7810",
+                empId: employer.employer_id,
                 file: { create: { file_name: `${req.file.filename}` } },
                 langs: { createMany: { data: langs } },
                 skills: { createMany: { data: skill } },
@@ -56,14 +59,12 @@ const handleAddingCandidate = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 const handleDeletingCandidate = async (req, res) => {
 
-    if (!req.params.id) return res.sendStatus(400)
+    if (!req.params.id | !req.user) return res.sendStatus(400)
 
     const id = req.params.id
-
-    const file = await prisma.file.findUnique({ where: { candidate_id: id } })
-    const filePath = `./uploads/${file.file_name}`;
-
     try {
+        const file = await prisma.file.findUnique({ where: { candidate_id: id } })
+        const filePath = `./uploads/${file.file_name}`;
         await fs.unlink(filePath);
         console.log('File deleted successfully');
     } catch (err) {
@@ -91,8 +92,12 @@ const handleDeletingCandidate = async (req, res) => {
 
 const handleGetAllCandidates = async (req, res) => {
 
+    if (!req.user) return res.sendStatus(400)
+
     try {
+        const employer = await prisma.employer.findUnique({ where: { employer_email: req.user } })
         const candidates = await prisma.candidate.findMany({
+            where: { empId: employer.employer_id },
             include: {
                 file: { select: { file_name: true } },
                 langs: { select: { cl_id: true, cl_name: true } },
@@ -110,14 +115,14 @@ const handleGetAllCandidates = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 
 const handleGetSingleCandidates = async (req, res) => {
-
-    if (!req.params.id) return res.sendStatus(400)
+    if (!req.params.id || !req.user) return res.sendStatus(400)
 
     const id = req.params.id
 
     try {
+        const employer = await prisma.employer.findUnique({ where: { employer_email: req.user } })
         const candidate = await prisma.candidate.findUnique({
-            where: { candidate_id: id },
+            where: { candidate_id: id, empId: employer.employer_id },
             include: {
                 file: { select: { file_name: true } },
                 langs: { select: { cl_id: true, cl_name: true } },
@@ -125,6 +130,7 @@ const handleGetSingleCandidates = async (req, res) => {
                 xp: { select: { cxp_id: true, cxp_duration: true, cxp_position: true } }
             }
         })
+        if (!candidate) return res.status(400).json({ message: "Candidate not found" })
         return res.status(200).json(candidate)
     } catch (error) {
         console.log(error);
@@ -137,17 +143,26 @@ const handleGetSingleCandidates = async (req, res) => {
 
 const handleCandidateFile = async (req, res) => {
 
-    // future: u should add check up for username here
 
-    if (!req.params.fileId) return res.status(400).json({ "message": "File ID not found" })
+    if (!req.params.fileId || !req.user) return res.status(400).json({ "message": "File ID not found" })
 
     try {
+        const employer = await prisma.employer.findUnique({ where: { employer_email: req.user } })
 
-        // future: u should query the file associated with user id here the logged in 
+        const fileCandidate = await prisma.file.findUnique({
+            where: { file_id: req.params.fileId }, select: { candidate_id: true }
+        })
+        if (!fileCandidate) return res.status(404).json({ message: "File not found" })
+
+        const isFileRelatedToCandidate = await prisma.candidate.findUnique({
+            where: { candidate_id: fileCandidate.candidate_id, empId: employer.employer_id }
+        })
+
+        if (!isFileRelatedToCandidate) return res.sendStatus(403)
+
         const file = await prisma.file.findUnique({
             where: { file_id: req.params.fileId }, select: { file_name: true }
         })
-
         if (!file) return res.status(404).json({ message: "File not found" })
 
         const pdfPath = path.join(__dirname, '../uploads', file.file_name);
@@ -167,14 +182,16 @@ const handleCandidateFile = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 const handleStatusChange = async (req, res) => {
 
-    if (!req.params.id || !req.body.status) return res.sendStatus(400)
+    if (!req.params.id || !req.body.status || !req.user) return res.sendStatus(400)
     const { id } = req.params
     const { status } = req.body
     try {
+        const employer = await prisma.employer.findUnique({ where: { employer_email: req.user } })
         const updateStatus = await prisma.candidate.update({
-            where: { candidate_id: id },
+            where: { candidate_id: id, empId: employer.employer_id },
             data: { status }
         })
+        if (!updateStatus) return res.status(400).json({ message: "Candidate not found" })
         console.log(updateStatus);
         return res.sendStatus(200)
     } catch (error) {
