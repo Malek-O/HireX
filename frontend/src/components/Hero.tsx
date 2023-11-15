@@ -8,7 +8,7 @@ const Hero = () => {
 
             <div className="flex flex-col items-center text-center mt-12">
                 <h1 className="font-bold text-5xl md:text-7xl px-3 md:px-0">Streamline Your Hiring,</h1>
-                <h2 className="font-bold text-4xl md:text-6xl px-3 md:px-0"><span className="text-violet-700">CV Filtering </span>
+                <h2 className="font-bold text-4xl md:text-6xl px-3 md:px-0"><span className="text-[#9F6DDE]">CV Filtering </span>
                     Made Easy!</h2>
                 <p className="font-light text-gray-500 mt-10 text-lg md:max-w-3xl px-3 md:px-0">HireX streamlines CV filtering,
                     making hiring

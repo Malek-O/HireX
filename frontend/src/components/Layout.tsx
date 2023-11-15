@@ -1,10 +1,14 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
+import LoggedNav from './LoggedNav'
+import useAuth from '../hooks/useAuth'
 
 const Layout = () => {
+
+    const { auth } = useAuth()
     return (
         <>
-            <Navbar />
+            {auth?.useremail ? <LoggedNav /> : <Navbar />}
             <Outlet />
         </>
     )
