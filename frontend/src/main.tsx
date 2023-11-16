@@ -10,6 +10,7 @@ import Signin from './pages/Signin';
 import Dashboard from './pages/Dashboard';
 import RequireAuth from './components/RequireAuth';
 import { AuthProvider } from './context/AuthProvider';
+import Candidate from './pages/Candidate';
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -29,8 +30,15 @@ const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
-            path: "/dashboard",
+            path: "/candidates",
             element: <Dashboard />
+          },
+          {
+            path: "/candidates/:id",
+            element: <Candidate />,
+            loader: ({ params }) => {
+              return { params };
+            }
           },
         ]
       }

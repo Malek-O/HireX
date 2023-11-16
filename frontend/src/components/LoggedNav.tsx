@@ -62,7 +62,7 @@ const LoggedNav = () => {
                 className="z-10 hidden absolute md:right-20 top-12 bg-[#f6f2f7] divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                     <li className="px-3 my-2">
-                        <Link to={'/dashboard'} className="block text-lg font-medium rounded-md text-center mx-auto w-full px-2 py-2  hover:bg-gray-200  text-black">Dashboard</Link>
+                        <Link to={'/candidates'} className="block text-lg font-medium rounded-md text-center mx-auto w-full px-2 py-2  hover:bg-gray-200  text-black">Dashboard</Link>
                     </li>
                     <li className="px-3 my-2">
                         <button onClick={handleLogout} className="block text-lg font-medium rounded-md mx-auto w-full px-2 py-2  hover:bg-red-300  text-red-800">Log

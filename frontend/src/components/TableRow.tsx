@@ -1,5 +1,5 @@
 import { candidateProps } from '../types/type.t'
-
+import { Link } from 'react-router-dom'
 const TableRow = (props: candidateProps) => {
     return (
         <tr className="bg-white border-b  dark:border-gray-300">
@@ -9,7 +9,7 @@ const TableRow = (props: candidateProps) => {
             <td className="px-6 py-4">
                 {props?.candidate_email}
             </td>
-            <td className="px-6 py-4">
+            <td className="px-6 py-4 whitespace-nowrap ">
                 {props?.candidate_phone}
             </td>
             <td className="px-6 py-4">
@@ -22,11 +22,10 @@ const TableRow = (props: candidateProps) => {
                 {props?.candidate_designation}
             </td>
             <td className="px-6 py-4 text-center">
-                <p className="bg-orange-200 text-yellow-700 rounded-lg p-2">{props.status}</p>
+                <p className={`rounded-lg p-2 ${props.status === "APPROVED" ? 'bg-green-200 text-green-700' : 'bg-orange-200 text-yellow-700'}`}>{props.status}</p>
             </td>
             <td className="px-6 py-4">
-                <button
-                    className="rounded-lg bg-[#9F6DDE] py-2 px-5  text-white transition duration-75 hover:bg-[#4d2e74]">Details</button>
+                <Link to={`/candidates/${props.candidate_id}`} className="rounded-lg bg-[#9F6DDE] py-2 px-5  text-white transition duration-75 hover:bg-[#4d2e74]">Details</Link>
             </td>
         </tr>
     )
