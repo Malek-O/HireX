@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 import toast from 'react-hot-toast';
 import axios from '../api/axios'
+import Spinner from '../components/Spinner';
 
 
 const Signin = () => {
@@ -38,8 +39,9 @@ const Signin = () => {
             toast.success(`Welcome ${response.data.useremail}!`)
             navigate(from, { replace: true })
         } catch (error: any) {
+            console.log(error);
             setLoading(false)
-            toast.error(error?.response?.data?.message || "Too Many requests!")
+            toast.error(error?.response?.data?.message || error?.response?.data || error?.message || "Too Many requests!")
         }
     }
 
@@ -70,8 +72,10 @@ const Signin = () => {
 
                         <button type="submit"
                             disabled={loading}
-                            className="w-full  bg-[#9F6DDE] text-white hover:bg-[#4d2e74] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center  hover:bg-primary-700 focus:ring-primary-800">Sign
-                            in</button>
+                            className="w-full  bg-[#9F6DDE] text-white hover:bg-[#4d2e74] disabled:bg-[#4d2e74] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center  hover:bg-primary-700 focus:ring-primary-800">
+                            {loading ? <Spinner /> : <span>Sign in</span>}
+
+                        </button>
                     </form>
                 </div>
             </div>
