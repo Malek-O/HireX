@@ -1,16 +1,15 @@
 import { useLoaderData } from 'react-router-dom';
-import { candidateProps } from '../types/type.t';
-import { useQuery, useQueryClient, InvalidateQueryFilters } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import SingleCandidate from '../components/SingleCandidate';
+import SingleCandidateSkeleton from '../components/SingleCandidateSkeleton';
 
 const Candidate = () => {
 
     let { params }: any = useLoaderData();
 
-    const queryClient = useQueryClient()
     const axiosPrivate = useAxiosPrivate()
-    const { isLoading, data, isError, error } = useQuery({
+    const { isLoading, data, isError } = useQuery({
         queryKey: [`candidate${params.id}`],
         queryFn: () => axiosPrivate.get(`/candidate/${params.id}`)
     })
@@ -21,7 +20,7 @@ const Candidate = () => {
         <>
             {!isLoading ?
                 <SingleCandidate {...data?.data} />
-                : "Loading..."}
+                : <SingleCandidateSkeleton />}
 
         </>
     )
