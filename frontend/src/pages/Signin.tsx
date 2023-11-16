@@ -16,7 +16,7 @@ const Signin = () => {
     const navigate = useNavigate()
 
     const from = location.state?.from?.pathname || "/";
-    const { setAuth } = useAuth()
+    const { setAuth, auth } = useAuth()
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         setLoading(true)
@@ -45,6 +45,7 @@ const Signin = () => {
         }
     }
 
+    if (auth?.accessToken) navigate(from, { replace: true })
     return (
         <section className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div

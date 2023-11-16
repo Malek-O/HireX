@@ -38,11 +38,11 @@ const SingleCandidate = (props: candidateProps) => {
                 <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1  gap-8">
                     <div>
                         <h1 className="text-lg font-bold">Email</h1>
-                        <h4 className="text-base text-black/50">{props?.candidate_email}</h4>
+                        <a href={`mailto:${props?.candidate_email}`} className="text-base text-black/50">{props?.candidate_email}</a>
                     </div>
                     <div>
                         <h1 className="text-lg font-bold">Phone</h1>
-                        <h4 className="text-base text-black/50">{props?.candidate_phone}</h4>
+                        <a href={`tel:${props?.candidate_phone}`} className="text-base text-black/50">{props?.candidate_phone}</a>
                     </div>
                     <div>
                         <h1 className="text-lg font-bold">Nationality</h1>
