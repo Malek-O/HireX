@@ -1,11 +1,23 @@
+import Spinner from "./Spinner"
+import { useIsMutating } from '@tanstack/react-query'
 
-const Upload = () => {
+type uploadProps = {
+    setOpenUpload: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const Upload = ({ setOpenUpload }: uploadProps) => {
+    const isMutating = useIsMutating()
+
     return (
         <div className="flex justify-between items-center md:mx-20 mt-24 mx-5">
             <h1 className="text-2xl font-bold">Candidates</h1>
-            <button
+            {!isMutating ? <button
+                onClick={() => setOpenUpload(true)}
                 className="shadow-md rounded-lg bg-[#9F6DDE] p-1 text-lg px-6 text-white transition duration-75 hover:bg-slate-950">
-                Upload</button>
+                Upload</button> : <Spinner />}
+
+
+
         </div>
     )
 }
