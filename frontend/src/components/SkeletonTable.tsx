@@ -19,9 +19,9 @@ const SkeletonTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {[5, 5, 5, 5, 5].map(() => {
+                        {[5, 5, 5, 5, 5].map((val, index) => {
                             return (
-                                <tr className="bg-white border-b  dark:border-gray-300">
+                                <tr key={index} className="bg-white border-b  dark:border-gray-300">
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                         <Skeleton />
                                     </th>
