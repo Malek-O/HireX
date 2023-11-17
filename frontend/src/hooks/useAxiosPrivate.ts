@@ -30,7 +30,7 @@ const useAxiosPrivate = () => {
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
                     // the bellow line is added becuase when i upload the pdf when token expired it gave me error that server
                     // dont see pdf cuz i didnt set the content type etc. so i put it there when its retrying
-                    if (prevRequest.url === "/files") {
+                    if (prevRequest.url === "/candidate") {
                         prevRequest.headers['Content-Type'] = `multipart/form-data`
                     }
                     return axiosPrivate(prevRequest)
