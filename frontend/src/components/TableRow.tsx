@@ -12,8 +12,8 @@ const TableRow = (props: candidateProps) => {
             <td className="px-6 py-4 whitespace-nowrap ">
                 {props?.candidate_phone}
             </td>
-            <td className="px-6 py-4">
-                {props?.candidate_gpa}
+            <td className="px-6 py-4 whitespace-nowrap">
+                {props?.candidate_gpa?.replace(/ /g, '') || "N/A"}
             </td>
             <td className="px-6 py-4">
                 {props?.candidate_edu}
