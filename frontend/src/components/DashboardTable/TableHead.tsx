@@ -6,7 +6,7 @@ export const TableHead = ({ table, flexRender }: any) => {
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header: any) => {
                             return (
-                                <th className="px-6 py-3" key={header.id} onClick={header.column.getToggleSortingHandler()}>
+                                <th className="px-6 py-3" key={header.id} onClick={header.column.columnDef.header !== "details" ? header.column.getToggleSortingHandler() : null}>
                                     <p className="flex items-center gap-2" >
                                         {flexRender(header.column.columnDef.header, header.getContext())}
                                         {header.column.columnDef.header !== "details" ? header.column.getIsSorted() == 'asc' ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
