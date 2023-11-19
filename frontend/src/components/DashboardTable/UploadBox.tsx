@@ -2,9 +2,9 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 import { useMutation, useQueryClient, InvalidateQueryFilters } from '@tanstack/react-query'
-import PdfIcon from '../svgs/PdfIcon'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
-import Spinner from './Spinner'
+import PdfIcon from '../../svgs/PdfIcon'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import Spinner from '../Spinner'
 
 const UploadBox = ({ setOpenUpload }: { setOpenUpload: React.Dispatch<React.SetStateAction<boolean>> }) => {
 

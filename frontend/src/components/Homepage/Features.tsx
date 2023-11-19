@@ -1,4 +1,4 @@
-import img9 from '../../images/image 9.png'
+import img9 from '../../../images/image 9.png'
 
 const Features = () => {
     return (

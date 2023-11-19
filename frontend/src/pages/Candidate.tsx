@@ -1,8 +1,8 @@
 import { useLoaderData } from 'react-router-dom';
 import { useQuery } from "@tanstack/react-query"
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import SingleCandidate from '../components/SingleCandidate';
-import SingleCandidateSkeleton from '../components/SingleCandidateSkeleton';
+import SingleCandidate from '../components/candidatePage/SingleCandidate';
+import SingleCandidateSkeleton from '../components/candidatePage/SingleCandidateSkeleton';
 
 const Candidate = () => {
 

@@ -1,4 +1,4 @@
-import img7 from '../../images/image 7.png'
+import img7 from '../../../images/image 7.png'
 const Decoration = () => {
     return (
         <div className='relative isolate'>

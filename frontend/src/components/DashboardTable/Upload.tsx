@@ -1,4 +1,4 @@
-import Spinner from "./Spinner"
+import Spinner from "../Spinner"
 import { useIsMutating } from '@tanstack/react-query'
 
 type uploadProps = {
