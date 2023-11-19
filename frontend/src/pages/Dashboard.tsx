@@ -25,7 +25,7 @@ const Dashboard = () => {
                     {data?.data.length ?
                         <>
                             {openUpload && <UploadBox setOpenUpload={setOpenUpload} />}
-                            <div className={`${openUpload && 'opacity-40'}`}>
+                            <div className={`${openUpload && 'blur-sm'} transition ease-in-out duration-200`}>
                                 <Upload setOpenUpload={setOpenUpload} />
                                 <div className="relative overflow-x-auto md:mx-20 mt-12">
                                     <table className="w-full text-sm text-left text-gray-500 ">
