@@ -62,7 +62,7 @@ After successfully signing in, the navbar option will change.
 The employer can now see his email, go to dashboard, or log out through the navigation bar.
 
 
-![5- Navbar Changes](https://github.com/Malek-O/HireX/assets/128943091/33cd8496-8acd-419e-9804-4b79bd214007)
+![5- Navbar Changes](https://github.com/Malek-O/HireX/assets/116006550/0112383c-86d3-49b5-a09f-06f7806ba80d)
 
 
 **_6- Candidate Page:_**
