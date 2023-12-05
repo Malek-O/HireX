@@ -100,4 +100,10 @@ Pressing the Reject button will need a second confirmation once again to delete 
 ![10- Rejecting CV](https://github.com/Malek-O/HireX/assets/128943091/0d247b1e-d62f-4f65-9dc5-67a418ed0330)
 
 
+**_11- Accepting CV:_**
 
+Pressing the Accept button will need a second confirmation once again to accept the candidate.
+
+
+
+![11- Accepting CV](https://github.com/Malek-O/HireX/assets/116006550/6c68b173-2254-4111-bf56-d9e680cdbcdb)
