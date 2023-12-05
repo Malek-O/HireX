@@ -144,14 +144,13 @@ const handleGetSingleCandidates = async (req, res) => {
 const handleCandidateFile = async (req, res) => {
 
 
-    if (!req.params.fileId || !req.user) return res.status(400).json({ "message": "File ID not found" })
-
+    if (!req.params.candidateId || !req.user) return res.status(400).json({ "message": "File ID not found" })
     try {
         const employer = await prisma.employer.findUnique({ where: { employer_email: req.user } })
-
         const fileCandidate = await prisma.file.findUnique({
-            where: { file_id: req.params.fileId }, select: { candidate_id: true }
+            where: { candidate_id: req.params.candidateId }
         })
+
         if (!fileCandidate) return res.status(404).json({ message: "File not found" })
 
         const isFileRelatedToCandidate = await prisma.candidate.findUnique({
@@ -160,12 +159,7 @@ const handleCandidateFile = async (req, res) => {
 
         if (!isFileRelatedToCandidate) return res.sendStatus(403)
 
-        const file = await prisma.file.findUnique({
-            where: { file_id: req.params.fileId }, select: { file_name: true }
-        })
-        if (!file) return res.status(404).json({ message: "File not found" })
-
-        const pdfPath = path.join(__dirname, '../uploads', file.file_name);
+        const pdfPath = path.join(__dirname, '../uploads', fileCandidate.file_name);
 
         return res.sendFile(pdfPath, err => {
             if (err) {

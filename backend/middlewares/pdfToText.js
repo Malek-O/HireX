@@ -7,7 +7,7 @@ const pdfToText = async (req, res, next) => {
     console.log(filename);
     const pdffile = fs.readFileSync(`./uploads/${filename}`)
     const file = await pdfparse(pdffile);
-    const text = file.text.replace(/\s+/g, ' ').trim()
+    const text = file.text.replace(/\s+/g, ' ').trim().replace(/(\d)\s*([\/\\])\s*(\d)/g, '$1$2$3')
     req.CVTEXT = text
     next()
 }

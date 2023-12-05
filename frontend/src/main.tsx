@@ -1,10 +1,59 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
+import { Toaster } from 'react-hot-toast';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Home from './pages/Home';
+import Layout from './components/Layout';
+import Signin from './pages/Signin';
+import Dashboard from './pages/Dashboard';
+import RequireAuth from './components/RequireAuth';
+import { AuthProvider } from './context/AuthProvider';
+import Candidate from './pages/Candidate';
+
+const queryClient = new QueryClient();
+const router = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        path: "/",
+        element: <Home />
+      },
+      {
+        path: "/signin",
+        element: <Signin />
+      },
+      {
+        element: <RequireAuth />,
+        children: [
+          {
+            path: "/candidates",
+            element: <Dashboard />
+          },
+          {
+            path: "/candidates/:id",
+            element: <Candidate />,
+            loader: ({ params }) => {
+              return { params };
+            }
+          },
+        ]
+      }
+    ]
+  }
+])
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Toaster />
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

@@ -14,7 +14,7 @@ router.route('/:id')
     .delete(handleDeletingCandidate)
     .get(handleGetSingleCandidates)
     .patch(handleStatusChange)
-router.route('/file/:fileId')
+router.route('/file/:candidateId')
     .get(handleCandidateFile)
 
 module.exports = router

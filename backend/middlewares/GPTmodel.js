@@ -1,4 +1,4 @@
-const OpenAI = require("openai");
+const { OpenAI } = require("openai");
 const schema = require("../config/openaiSchema");
 
 /** @type {import("express").RequestHandler} */

@@ -26,7 +26,7 @@ const handleRefresh = async (req, res) => {
                     process.env.ACCESS_TOKEN_SECRET,
                     { expiresIn: '15s' }
                 )
-                return res.json({ accessToken, username: empRow.employer_email })
+                return res.json({ accessToken, useremail: empRow.employer_email })
             }
         )
     } catch (error) {

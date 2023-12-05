@@ -27,7 +27,7 @@ const schema = {
         },
         GPA: {
             type: "string",
-            description: "Extract the GPA of the candidate CV. if not found, return empty string."
+            description: "Extract the GPA and the scale of GPA of the candidate CV. if GPA not found, return empty string."
         },
         experiences: {
             type: "array",
