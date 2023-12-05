@@ -3,7 +3,7 @@
 
 ## Discription
 
-The idea is building a SaaS (Software-as-a-service) for companies that has a difficult time to manage high volumes of CV’s. The service enables the employer to upload the CV as pdf for example to be streamed and processed to extract the information of the candidates such as name, experiences, Skills, GPA etc. and store it in DB. Thus, the employer can manage, filter candidates based on the information extracted from CVs.
+SaaS (Software-as-a-service) for recruiters for parsing CVs and displaying them in originzed manner for displaying and filtering.
 
 
 **Main Technologies used:**
