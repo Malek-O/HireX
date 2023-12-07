@@ -1,6 +1,10 @@
 
 # **HireX 💼**
 
+## Demo
+
+https://youtu.be/fS8sj5gzs0Q
+
 ## Discription
 
 SaaS (Software-as-a-service) for recruiters for parsing CVs and displaying them in originzed manner for displaying and filtering.
