@@ -34,7 +34,7 @@ SaaS (Software-as-a-service) for recruiters for parsing CVs and displaying them 
 The main page of HireX.
 
 
-![1- Main Page](https://github.com/Malek-O/HireX/assets/128943091/5d2ba916-f66d-47fa-b447-16c2cf3d2434)
+![image](https://github.com/Malek-O/HireX/assets/116006550/04055afa-f658-4a6b-8abe-d78762057ff2)
 
 
 **_2- Sign In:_**
