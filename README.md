@@ -2,7 +2,7 @@
 # **HireX 💼**
 
 ## Demo
-
+https://www.youtube.com/watch?v=HdxTfbESYnA
 https://github.com/Malek-O/HireX/assets/116006550/a77a200b-d1cb-46ca-b8c0-974351559587
 
 ## Discription
